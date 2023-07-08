@@ -8,6 +8,7 @@ class Player:
     good_deeds = 0
     bad_deeds = 0
     is_alive = True
+    time_line = randrange(15, 60)
 
     def __init__(self, name, age):
         self.name = name
@@ -21,6 +22,5 @@ class Player:
 
     def random_death(self):
         random_age = randrange(15, 60)
+        self.time_line = random_age
         print("He will die at ", random_age)
-        if random_age == self.age:
-            self.is_alive = False

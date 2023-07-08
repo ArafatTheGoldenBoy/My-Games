@@ -3,7 +3,7 @@ from Player import Player
 
 def main():
     player1 = Player("Yasin", 28)
-    player1.random_death()
+    # player1.random_death() [This function will need when I put some calculation with aging]
     print(
         "Name:",
         player1.name,
@@ -20,9 +20,17 @@ def main():
         "Money:",
         player1.money,
     )
-    player1.aging()
-    player1.aging()
+    print("Player's total lifetime is ", player1.time_line)
+    # -------------Testing----------------#
+    # ---- Player Start playing here------#
+    for timeline in range(player1.time_line):
+        player1.aging()
+        if player1.age == player1.time_line:
+            player1.is_alive = False
+            break
+    # ---------End Testing----------------#
     print(player1.age)
+    print("Player is alive: ", player1.is_alive)
 
 
 main()
