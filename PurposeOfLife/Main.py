@@ -3,7 +3,7 @@ from Player import Player
 
 def main():
     player1 = Player("Yasin", 28)
-
+    player1.random_death()
     print(
         "Name:",
         player1.name,
@@ -20,6 +20,9 @@ def main():
         "Money:",
         player1.money,
     )
+    player1.aging()
+    player1.aging()
+    print(player1.age)
 
 
 main()
