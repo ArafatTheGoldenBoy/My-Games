@@ -3,7 +3,7 @@ from Player import Player
 
 def main():
     player1 = Player("Yasin", 28)
-    # player1.random_death() [This function will need when I put some calculation with aging]
+    player1.random_death()
     print(
         "Name:",
         player1.name,
