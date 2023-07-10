@@ -2,7 +2,7 @@ from Player import Player
 
 
 def main():
-    player1 = Player("Yasin", 29)
+    player1 = Player("Yasin", 29, "Male")
     player1.random_death()
     print(
         "Name:",
