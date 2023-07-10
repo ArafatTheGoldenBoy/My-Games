@@ -2,7 +2,7 @@ from Player import Player
 
 
 def main():
-    player1 = Player("Yasin", 28)
+    player1 = Player("Yasin", 29)
     player1.random_death()
     print(
         "Name:",
@@ -24,6 +24,7 @@ def main():
     # -------------Testing----------------#
     # ---- Player Start playing here------#
     for timeline in range(player1.time_line):
+        player1.daily_action()
         player1.aging()
         if player1.age == player1.time_line:
             player1.is_alive = False
@@ -31,6 +32,7 @@ def main():
     # ---------End Testing----------------#
     print(player1.age)
     print("Player is alive: ", player1.is_alive)
+    player1.calculate_deeds()
 
 
 main()

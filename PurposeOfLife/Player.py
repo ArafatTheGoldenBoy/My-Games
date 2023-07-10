@@ -24,3 +24,18 @@ class Player:
         random_age = randrange(self.age + 1, 60)
         self.time_line = random_age
         print("He will die at ", random_age)
+
+    def daily_action(self):
+        rd = randrange(-100, 100)
+        if rd > 0:
+            self.good_deeds += 1
+        else:
+            self.bad_deeds += 1
+
+    def calculate_deeds(self):
+        total_deeds = self.good_deeds - self.bad_deeds
+        print("amol nama : ", total_deeds)
+        if total_deeds > 0:
+            print("Final destination: Paradise")
+        else:
+            print("Final destination: Hell")
