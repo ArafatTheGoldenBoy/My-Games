@@ -37,7 +37,7 @@ class Player:
             self.bad_deeds += 1
             # ---- common situation for each timeline ----- #
             # ---- That means if anyone want to forgive then the sin become zero and----- #
-            # ---- bad deeds counts as good deeds according authentic hadith ----- #
+            # ---- bad deeds counts as good deeds according 25-Surah Al-Furqan (The Criterion ) 70----- #
             repent = randrange(-100, 100)
             if repent > 0:
                 self.good_deeds += self.bad_deeds
