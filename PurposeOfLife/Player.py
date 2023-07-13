@@ -5,11 +5,23 @@ class Player:
     name = "player"
     age = 13
     gender = "none"
-    money = 1000
     good_deeds = 0
     bad_deeds = 0
     is_alive = True
     time_line = 60
+    good_action = [
+        "zero",
+        "charity",
+        "prayer for others",
+        "haz",
+        "zakat",
+        "salat",
+        "repent",
+        "tawhid",
+    ]
+    bad_action = ["zero", "greed", "envy", "lust", "wrath", "sloth", "murder", "shirk"]
+    good_life_history = []
+    bad_life_history = []
 
     def __init__(self, name, age, gender):
         self.gender = gender
@@ -28,18 +40,21 @@ class Player:
         print("He will die at ", random_age)
 
     def daily_action(self):
-        rd = randrange(-100, 100)
+        rd = randrange(-7, 7)
         if rd > 0:
-            self.good_deeds += 1
+            self.good_deeds += rd
+            self.good_life_history.append(self.good_action[rd])
         elif rd == 0:
             pass
         else:
-            self.bad_deeds += 1
+            self.bad_deeds += rd
+            self.bad_life_history.append(self.bad_action[rd])
             # ---- common situation for each timeline ----- #
             # ---- That means if anyone want to forgive then the sin become zero and----- #
             # ---- bad deeds counts as good deeds according 25-Surah Al-Furqan (The Criterion ) 70----- #
-            repent = randrange(-100, 100)
-            if repent > 0:
+            repent = randrange(0, 20)
+            # 7 becouse his repent, Allah forgive him :)
+            if repent == 7:
                 self.good_deeds += self.bad_deeds
                 self.bad_deeds = 0
             # ---- End common situation ---- #
