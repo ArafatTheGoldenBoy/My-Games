@@ -35,13 +35,12 @@ class Player:
             print("He died at age of ", self.age)
 
     def random_death(self):
-        # random_age = randrange(self.age + 1, 60)
-        random_age = 36
+        random_age = randrange(self.age + 1, 60)
         self.time_line = random_age
         print("He will die at ", random_age)
 
     def daily_action(self):
-        rd = -7
+        rd = randrange(-7, 7)
         if rd > 0:
             self.good_deeds += rd
             # ---- common situation for each timeline ----- #
@@ -60,11 +59,8 @@ class Player:
             self.bad_life_history.append(self.bad_action[-rd])
             self.bad_life_history.append(-rd)
             if self.time_line == self.age + 1 and rd == -7:
-                print(
-                    "If Allah forgive than his destination will be paradise",
-                    self.time_line,
-                    self.age,
-                )
+                self.good_deeds = -1
+                print("Becouse at the last moment he did shirk")
             # ---- End common situation ---- #
 
     def calculate_deeds(self):
