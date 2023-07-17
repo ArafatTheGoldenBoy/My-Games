@@ -22,6 +22,10 @@ class Player:
     bad_action = ["zero", "greed", "envy", "lust", "wrath", "sloth", "murder", "shirk"]
     good_life_history = []
     bad_life_history = []
+    all_life_history = []  # to find When character did shirk and repent in his lifetime
+    special_case = [
+        "Becouse you did the shirk but you didn't repent. According to islam Allah not forgive for your behavier. Final destination is Hell I geuss."
+    ]
 
     def __init__(self, name, age, gender):
         self.gender = gender
@@ -35,7 +39,7 @@ class Player:
             print("He died at age of ", self.age)
 
     def random_death(self):
-        random_age = randrange(self.age + 1, 60)
+        random_age = randrange(self.age + 1, 63)
         self.time_line = random_age
         print("He will die at ", random_age)
 
@@ -52,21 +56,40 @@ class Player:
                 self.bad_deeds = 0
             self.good_life_history.append(self.good_action[rd])
             self.good_life_history.append(rd)
+            self.all_life_history.append(self.good_action[rd])
         elif rd == 0:
             pass
         else:
             self.bad_deeds += rd
             self.bad_life_history.append(self.bad_action[-rd])
             self.bad_life_history.append(-rd)
-            if self.time_line == self.age + 1 and rd == -7:
-                self.good_deeds = -1
-                print("Becouse at the last moment he did shirk")
+            self.all_life_history.append(self.bad_action[-rd])
             # ---- End common situation ---- #
 
     def calculate_deeds(self):
         total_deeds = self.good_deeds + self.bad_deeds
         print("amol nama : ", total_deeds)
-        if total_deeds >= 0:
-            print("Final destination: Paradise")
+        # ---- Special Case ------#
+        # ----- shirk calculation -----#
+        lenght = len(self.all_life_history)
+        position_of_shirk = -1
+        position_of_repent = -1
+        for x in range(lenght):
+            if self.all_life_history[x] == "shirk":
+                position_of_shirk = x
+            elif self.all_life_history[x] == "repent":
+                position_of_repent = x
+
+        if self.all_life_history.pop() == "shirk":
+            print(self.special_case[0])
+        elif position_of_shirk > -1 and position_of_shirk > position_of_repent:
+            print(self.special_case[0])
+        # print("postion of shirk: ", position_of_shirk)
+        # print("postion of repent: ", position_of_repent)
+        # ---- Special Case End------#
+        # ----- shirk calculation End-----#
         else:
-            print("Final destination: Hell")
+            if total_deeds >= 0:
+                print("Final destination: Paradise")
+            else:
+                print("Final destination: Hell")

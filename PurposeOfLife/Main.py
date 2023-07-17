@@ -15,6 +15,7 @@ def main():
         print("Sins are : ", player1.bad_life_history)
         print("rightous deeds point: ", player1.good_deeds)
         print("sin point: ", player1.bad_deeds)
+
         player1.aging()
         if player1.age == player1.time_line:
             player1.is_alive = False
