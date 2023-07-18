@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet">
+    <title>Perpost Of Life Random Story</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="">
+    <div>
+        <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div>
+                <div id="death">...</div>
+                <div id="score">...</div>
+                <div id="result">...</div>
+            </div>
+        </div>
+        <div class="my-6 p-2 max-w-sm mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div>
+                <div id="history1">
+                    <h3 class="text-xl underline "> History of deeds </h3>
+                    <p id="history2">...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    function randrange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    class Player {
+        name = " player"; age = 13; gender = "none"; good_deeds = 0; bad_deeds = 0; is_alive = true; time_line = 60; good_action = ["zero"
+            , "charity", "prayer for others", "haz", "zakat", "salat", "repent", "tawhid"];
+        bad_action = ["zero", "greed", "envy", "lust", "wrath", "sloth", "murder", "shirk"]; good_life_history = [];
+        bad_life_history = []; all_life_history = [];
+        special_case = ["Becouse you did the shirk but you didn't repent. According to islam Allah not forgive for your behavier.Final destination is Hell I geuss."];
+        constructor(name, age, gender) { this.gender = gender; this.name = name; this.age = age }
+        aging() {
+            if
+                (this.is_alive == true) { this.age += 1 } else {
+                console.log("He died at the age of ", this.age);
+
+            }
+        }
+        random_death() {
+            const random_age = randrange(this.age + 1, 63)
+            this.time_line = random_age
+            console.log(" He will die at ", random_age)
+            document.getElementById("death").innerHTML = "He died at the age of " + random_age;
+        }
+        daily_action() {
+            const rd = randrange(-7, 7)
+            if (rd > 0) {
+                this.good_deeds += rd
+                if (rd == 6) {
+                    this.good_deeds += -this.bad_deeds
+                    this.bad_deeds = 0
+                }
+                this.good_life_history.push(this.good_action[rd])
+                this.good_life_history.push(rd)
+                this.all_life_history.push(this.good_action[rd])
+            }
+            else if (rd == 0) {
+            }
+            else {
+                this.bad_deeds += rd
+                this.bad_life_history.push(this.bad_action[-rd])
+                this.bad_life_history.push(-rd)
+                this.all_life_history.push(this.bad_action[-rd])
+            }
+        }
+        calculate_deeds() {
+            const total_deeds = this.good_deeds + this.bad_deeds
+            console.log(" amol nama : ", total_deeds)
+            document.getElementById("score").innerHTML = " Amol nama : " + total_deeds;
+            let position_of_shirk = -1
+            let position_of_repent = -1
+            const lenght = this.all_life_history.length
+            for (let i = 0; lenght > i; i++) {
+                if (this.all_life_history[i] == " shirk") {
+                    position_of_shirk = i
+                }
+                else if (this.all_life_history[i] == "repent") {
+                    position_of_repent = i
+                }
+            }
+
+            if (position_of_shirk > -1 && position_of_shirk > position_of_repent) {
+                console.log(this.special_case[0]);
+                document.getElementById("result").innerHTML = this.special_case[0];
+            }
+            else {
+                if (total_deeds >= 0) {
+                    console.log("Final destination: Paradise")
+                    document.getElementById("result").innerHTML = "Final destination: Paradise";
+                }
+                else {
+                    console.log("Final destination: Hell")
+                    document.getElementById("result").innerHTML = "Final destination: Hell";
+                }
+            }
+        }
+    }
+    const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay * 1000))
+
+    player1 = new Player("Yasin", 28, "Male")
+    player1.random_death()
+    console.log("Player's total lifetime is ", player1.time_line)
+    const repeatedGreetings = async () => {
+        for (let i = player1.age; player1.time_line > i; i++) {
+            player1.daily_action()
+            await sleep(2);
+            console.log("Good deeds are: " + player1.good_life_history);
+            console.log("Bad deeds are:" + player1.bad_life_history);
+
+
+            player1.aging()
+            if (player1.age == player1.time_line) {
+                player1.is_alive = false
+                break
+            }
+        }
+    }
+    repeatedGreetings()
+    console.log("Player is alive: " + player1.is_alive)
+    console.log("History of doing deeds" + player1.all_life_history)
+
+    player1.calculate_deeds()
+    document.getElementById("history2").style.wordBreak = "break-all"
+    document.getElementById("history2").style.hyphens = "manual"
+    document.getElementById("history2").innerHTML = player1.all_life_history;
+    console.log("Thank you for playing")
+    for (let i = 0; player1.all_life_history.length > i; i++) {
+        for (let j = 0; player1.bad_life_history.length > j; j++) {
+            if (player1.all_life_history[i] == player1.bad_life_history[j]) {
+                console.log(player1.all_life_history[i])
+            }
+        }
+    }
+</script>
+
+</html>
