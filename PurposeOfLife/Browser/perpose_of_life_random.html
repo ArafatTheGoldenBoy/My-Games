@@ -7,10 +7,12 @@
     <link href="css/style.css" rel="stylesheet">
     <title>Perpost Of Life Random Story</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 </head>
 
 <body class="">
+    <div id="app">{{ message }}</div>
     <div>
         <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
             <div>
@@ -141,6 +143,20 @@
             }
         }
     }
+
+
+    // vue
+    const { createApp, ref } = Vue
+
+    createApp({
+        setup() {
+            const message = ref('Perpose of life')
+            return {
+                message
+            }
+        }
+    }).mount('#app')
+    // vue end
 </script>
 
 </html>
