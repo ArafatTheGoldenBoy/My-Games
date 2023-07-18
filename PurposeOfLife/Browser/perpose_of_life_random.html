@@ -12,16 +12,33 @@
 </head>
 
 <body class="">
-    <div id="app">{{ message }}</div>
+    <div id="app"></div>
     <div>
         <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
             <div>
                 <div id="death">...</div>
                 <div id="score">...</div>
+
                 <div id="result">...</div>
             </div>
         </div>
-        <div class="my-6 p-2 max-w-sm mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+        <div class="my-6 p-2 mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div>
+                <div id="history1">
+                    <h3 class="text-xl underline "> Good Deeds </h3>
+                    <p id="good_deeds">...</p>
+                </div>
+            </div>
+        </div>
+        <div class="my-6 p-2 mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div>
+                <div id="history1">
+                    <h3 class="text-xl underline "> Evil Deeds </h3>
+                    <p id="bad_deeds">...</p>
+                </div>
+            </div>
+        </div>
+        <div class="my-6 p-2 mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
             <div>
                 <div id="history1">
                     <h3 class="text-xl underline "> History of deeds </h3>
@@ -54,7 +71,7 @@
             const random_age = randrange(this.age + 1, 63)
             this.time_line = random_age
             console.log(" He will die at ", random_age)
-            document.getElementById("death").innerHTML = "He died at the age of " + random_age;
+            //document.getElementById("death").innerHTML = "He died at the age of " + random_age;
         }
         daily_action() {
             const rd = randrange(-7, 7)
@@ -119,7 +136,10 @@
             player1.daily_action()
             await sleep(2);
             console.log("Good deeds are: " + player1.good_life_history);
+            document.getElementById("good_deeds").innerHTML = player1.good_life_history;
             console.log("Bad deeds are:" + player1.bad_life_history);
+            document.getElementById("bad_deeds").innerHTML = player1.bad_life_history;
+            document.getElementById("history2").innerHTML = player1.all_life_history;
             player1.aging()
             if (player1.age == player1.time_line) {
                 player1.is_alive = false
@@ -128,13 +148,15 @@
         }
     }
     stop()
+    async function stop2() {
+        time = (player1.time_line + 2 - player1.age) * 2
+        await sleep(time)
+        player1.calculate_deeds()
+        document.getElementById("death").innerHTML = "He died at the age of " + player1.time_line;
+    }
+    stop2()
     console.log("Player is alive: " + player1.is_alive)
     console.log("History of doing deeds" + player1.all_life_history)
-
-    player1.calculate_deeds()
-    document.getElementById("history2").style.wordBreak = "break-all"
-    document.getElementById("history2").style.hyphens = "manual"
-    document.getElementById("history2").innerHTML = player1.all_life_history;
     console.log("Thank you for playing")
     for (let i = 0; player1.all_life_history.length > i; i++) {
         for (let j = 0; player1.bad_life_history.length > j; j++) {
@@ -143,19 +165,18 @@
             }
         }
     }
-
-
     // vue
+    /*
     const { createApp, ref } = Vue
 
     createApp({
         setup() {
-            const message = ref('Perpose of life')
+            //const message = ref('Perpose of life')
             return {
-                message
+                message: player1.all_life_history
             }
         }
-    }).mount('#app')
+    }).mount('#app') */
     // vue end
 </script>
 
