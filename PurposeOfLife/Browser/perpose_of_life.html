@@ -121,11 +121,7 @@
           position_of_repent = i
         }
       }
-      if (this.all_life_history.pop() == "shirk") {
-        console.log(this.special_case[0]);
-        document.getElementById("result").innerHTML = this.special_case[0];
-      }
-      else if (position_of_shirk > -1 && position_of_shirk > position_of_repent) {
+      if (position_of_shirk > -1 && position_of_shirk > position_of_repent) {
         console.log(this.special_case[0]);
         document.getElementById("result").innerHTML = this.special_case[0];
       }
