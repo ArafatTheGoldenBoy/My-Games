@@ -112,14 +112,12 @@
     player1 = new Player("Yasin", 28, "Male")
     player1.random_death()
     console.log("Player's total lifetime is ", player1.time_line)
-    const repeatedGreetings = async () => {
+    const stop = async () => {
         for (let i = player1.age; player1.time_line > i; i++) {
             player1.daily_action()
             await sleep(2);
             console.log("Good deeds are: " + player1.good_life_history);
             console.log("Bad deeds are:" + player1.bad_life_history);
-
-
             player1.aging()
             if (player1.age == player1.time_line) {
                 player1.is_alive = false
@@ -127,7 +125,7 @@
             }
         }
     }
-    repeatedGreetings()
+    stop()
     console.log("Player is alive: " + player1.is_alive)
     console.log("History of doing deeds" + player1.all_life_history)
 
