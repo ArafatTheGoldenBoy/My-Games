@@ -6,7 +6,7 @@ class Player {
         , "charity", "prayer for others", "haz", "zakat", "salat", "repent", "tawhid"];
     bad_action = ["zero", "greed", "envy", "lust", "wrath", "sloth", "murder", "shirk"]; good_life_history = [];
     bad_life_history = []; all_life_history = [];
-    special_case = ["Becouse you did the shirk but you didn't repent. According to islam Allah not forgive for your behavier.Final destination is Hell I geuss."];
+    special_case = ["Becouse you did the shirk but you didn't repent. According to islam Allah not forgive for your behavier.Final destination is Hell."];
     constructor(name, age, gender) { this.gender = gender; this.name = name; this.age = age }
     aging() {
         if
@@ -49,16 +49,17 @@ class Player {
         document.getElementById("score").innerHTML = " Amol nama : " + total_deeds;
         let position_of_shirk = -1
         let position_of_repent = -1
-        const lenght = this.all_life_history.length
-        for (let i = 0; lenght > i; i++) {
-            if (this.all_life_history[i] == " shirk") {
+        for (let i = 0; this.all_life_history.length > i; i++) {
+            console.log("histoy: " + this.all_life_history[i]);
+            if (this.all_life_history[i] == "shirk") {
                 position_of_shirk = i
             }
-            else if (this.all_life_history[i] == "repent") {
+            if (this.all_life_history[i] == "repent") {
                 position_of_repent = i
             }
         }
-
+        console.log("last position of shirk" + position_of_shirk);
+        console.log("last position of repent" + position_of_repent);
         if (position_of_shirk > -1 && position_of_shirk > position_of_repent) {
             console.log(this.special_case[0]);
             document.getElementById("result").innerHTML = this.special_case[0];
