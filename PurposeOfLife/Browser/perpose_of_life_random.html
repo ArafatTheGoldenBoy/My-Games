@@ -8,11 +8,11 @@
     <title>Perpost Of Life Random Story</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    <script src="https://unpkg.com/brain.js@2.0.0-beta.23/dist/browser.js"></script>
 </head>
 
-<body class="">
-    <div id="app"></div>
+<body>
+    <h1 class="text-center text-6xl uppercase">Purpose of life</h1>
     <div>
         <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
             <div>
@@ -20,6 +20,14 @@
                 <div id="score">...</div>
 
                 <div id="result">...</div>
+            </div>
+        </div>
+        <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+            <div>
+                <div>
+                    <p id="dr">Yearly action</p>
+                </div>
+                <div id="daily_result">...</div>
             </div>
         </div>
         <div class="my-6 p-2 mx-8 bg-white rounded-xl shadow-lg flex items-center space-x-4">
@@ -34,7 +42,7 @@
             <div>
                 <div id="history1">
                     <h3 class="text-xl underline "> Evil Deeds </h3>
-                    <p id="bad_deeds">...</p>
+                    <p id="bad_deeds" class="text-red-800">...</p>
                 </div>
             </div>
         </div>
@@ -46,9 +54,19 @@
                 </div>
             </div>
         </div>
+        <div class="flex flex-row">
+            <div class=" my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg basis-2/4 space-x-4">
+                <h3 class="text-xl"> Ai 1 </h3>
+                <p id="ai1">...</p>
+            </div>
+            <div class="my-6 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg basis-2/4 space-x-4">
+                <h3 class="text-xl"> Ai 2 </h3>
+                <p id="ai2">...</p>
+            </div>
+        </div>
     </div>
-
 </body>
+
 <script>
     function randrange(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -93,6 +111,7 @@
                 this.bad_life_history.push(-rd)
                 this.all_life_history.push(this.bad_action[-rd])
             }
+            return rd > 0 ? this.good_action[rd] : this.bad_action[-rd]
         }
         calculate_deeds() {
             const total_deeds = this.good_deeds + this.bad_deeds
@@ -133,8 +152,9 @@
     console.log("Player's total lifetime is ", player1.time_line)
     const stop = async () => {
         for (let i = player1.age; player1.time_line > i; i++) {
-            player1.daily_action()
-            await sleep(2);
+            daily_result = player1.daily_action()
+            await sleep(1);
+            document.getElementById("daily_result").innerHTML = `Age: ${player1.age} | committing: ${daily_result}`;
             console.log("Good deeds are: " + player1.good_life_history);
             document.getElementById("good_deeds").innerHTML = player1.good_life_history;
             console.log("Bad deeds are:" + player1.bad_life_history);
@@ -142,42 +162,57 @@
             document.getElementById("history2").innerHTML = player1.all_life_history;
             player1.aging()
             if (player1.age == player1.time_line) {
+                document.getElementById("dr").innerHTML = "---";
+                document.getElementById("daily_result").innerHTML = "---";
                 player1.is_alive = false
                 break
             }
         }
     }
     stop()
+    // Create a Neural Network
+    const network = new brain.NeuralNetwork();
+    const network2 = new brain.NeuralNetwork();
     async function stop2() {
-        time = (player1.time_line + 2 - player1.age) * 2
+        time = (player1.time_line + 2) - player1.age
         await sleep(time)
         player1.calculate_deeds()
         document.getElementById("death").innerHTML = "He died at the age of " + player1.time_line;
+        console.log("good deeds score: " + player1.good_deeds)
+        console.log("Evil deeds score: " + player1.bad_deeds)
+        // Train the Network with 4 input objects "zero", "charity", "prayer for others", "haz", "zakat", "salat", "repent", "tawhid"
+        network.train([
+            { input: { g: 1, b: 0 }, output: { peradise: 1 } },
+            { input: { g: 60, b: -30 }, output: { peradise: 1 } },
+            { input: { g: 0, b: 1 }, output: { hell: 1 } },
+            { input: { g: 0, b: -20 }, output: { hell: 1 } },
+
+        ]);
+        // Train the Network with 4 input objects "zero", "charity", "prayer for others", "haz", "zakat", "salat", "repent", "tawhid"
+        network2.train([
+            { input: { g: 1, b: 0 }, output: { peradise: 1 } },
+            { input: { g: 60, b: -10 }, output: { peradise: 1 } },
+            { input: { g: 0, b: 1 }, output: { hell: 1 } },
+            { input: { g: 0.7, b: -6.2 }, output: { hell: 1 } },
+
+        ]);
+
+        let result = network.run({ g: player1.good_deeds, b: player1.bad_deeds });
+        let result2 = network2.run({ g: player1.good_deeds, b: player1.bad_deeds });
+        console.log(`ai thinks: peradise = ${result["peradise"]} | hell = ${result["hell"]}`);
+        console.log(`ai 2 thinks: peradise = ${result2["peradise"]} | hell = ${result2["hell"]}`);
+        document.getElementById("ai1").innerHTML = "ai thinks: peradise = " + result["peradise"] + " | hell = " + result["hell"];
+        document.getElementById("ai2").innerHTML = "ai thinks: peradise = " + result2["peradise"] + " | hell = " + result2["hell"];
     }
     stop2()
     console.log("Player is alive: " + player1.is_alive)
     console.log("History of doing deeds" + player1.all_life_history)
     console.log("Thank you for playing")
-    for (let i = 0; player1.all_life_history.length > i; i++) {
-        for (let j = 0; player1.bad_life_history.length > j; j++) {
-            if (player1.all_life_history[i] == player1.bad_life_history[j]) {
-                console.log(player1.all_life_history[i])
-            }
-        }
-    }
-    // vue
-    /*
-    const { createApp, ref } = Vue
 
-    createApp({
-        setup() {
-            //const message = ref('Perpose of life')
-            return {
-                message: player1.all_life_history
-            }
-        }
-    }).mount('#app') */
-    // vue end
+
+
+
+
 </script>
 
 </html>
