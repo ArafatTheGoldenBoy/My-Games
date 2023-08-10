@@ -149,9 +149,7 @@ const stop3 = async () => {
 
 }
 stop3()
-// Create a Neural Network
-// const network = new brain.NeuralNetwork();
-// const network2 = new brain.NeuralNetwork();
+
 async function stop2() {
     time = (player1.time_line + 2) - player1.age
     await sleep(time)
@@ -160,35 +158,6 @@ async function stop2() {
     document.getElementById("death").innerHTML = "He died at the age of " + player1.time_line;
     console.log("good deeds score: " + player1.good_deeds)
     console.log("Evil deeds score: " + player1.bad_deeds)
-    // Train the Network
-    // network.train([
-    //     { input: { g: 1, b: 0 }, output: { peradise: 1 } },
-    //     { input: { g: 0.6, b: 0.4 }, output: { peradise: 1 } },
-    //     { input: { g: 0, b: 1 }, output: { hell: 1 } },
-    //     { input: { g: 0.3, b: 0.8 }, output: { hell: 1 } },
-
-    // ]);
-    // // Train the Network
-    // network2.train([
-    //     { input: { g: 1, b: 0 }, output: { peradise: 1 } },
-    //     { input: { g: 0.7, b: 0.4 }, output: { peradise: 1 } },
-    //     { input: { g: 0, b: 1 }, output: { hell: 1 } },
-    //     { input: { g: 0.1, b: 0.6 }, output: { hell: 1 } },
-
-    // ]);
-    /*
-    max = player1.good_deeds > -player1.bad_deeds ? player1.good_deeds : -player1.bad_deeds; // 10>2 -> 10 or 2>10 -> 10
-    min = player1.good_deeds < -player1.bad_deeds ? player1.good_deeds : -player1.bad_deeds; // 10<2 -> 2 or 2<10 -> 2
-    normalized_good_deeds = ((player1.good_deeds - 0.1) - player1.bad_deeds) / (player1.good_deeds - player1.bad_deeds)
-    normalized_bad_deeds = ((-player1.bad_deeds + 0.1) + player1.bad_deeds) / (player1.good_deeds - player1.bad_deeds) */
-    // let result = network.run({ g: player1.good_deeds, b: -player1.bad_deeds });
-    // let result2 = network2.run({ g: player1.good_deeds, b: -player1.bad_deeds });
-    // console.log(`normalized_good_deeds = ${player1.good_deeds}`);
-    // console.log(`normalized_bad_deeds = ${-player1.bad_deeds}`);
-    // console.log(`ai thinks: peradise = ${result["peradise"]} | hell = ${result["hell"]}`);
-    // console.log(`ai 2 thinks: peradise = ${result2["peradise"]} | hell = ${result2["hell"]}`);
-    // document.getElementById("ai1").innerHTML = "ai thinks: peradise = " + result["peradise"] + " | hell = " + result["hell"];
-    // document.getElementById("ai2").innerHTML = "ai thinks: peradise = " + result2["peradise"] + " | hell = " + result2["hell"];
 }
 stop2()
 console.log("Player is alive: " + player1.is_alive)
