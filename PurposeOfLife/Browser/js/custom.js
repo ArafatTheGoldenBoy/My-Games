@@ -21,8 +21,17 @@ class Player {
         console.log(" He will die at ", random_age)
         //document.getElementById("death").innerHTML = "He died at the age of " + random_age;
     }
-    daily_action() {
-        const rd = randrange(-7, 7)
+    daily_action(random_number) {
+        if (random_number < 1) {
+            if (random_number >= 0.5) {
+                random_number = randrange(0, 7);
+            }
+            else if (random_number < 0.5) {
+                random_number = randrange(-7, 0);
+            }
+        }
+        //console.log(" ------------------------------------------------------------- ", random_number)
+        const rd = random_number
         if (rd > 0) {
             this.good_deeds += rd
             if (rd == 6) {
@@ -46,7 +55,7 @@ class Player {
     calculate_deeds() {
         const total_deeds = this.good_deeds + this.bad_deeds
         console.log(" amol nama : ", total_deeds)
-        document.getElementById("score").innerHTML = " Amol nama : " + total_deeds;
+        //document.getElementById("score").innerHTML = " Amol nama : " + total_deeds;
         let position_of_shirk = -1
         let position_of_repent = -1
         for (let i = 0; this.all_life_history.length > i; i++) {
@@ -62,16 +71,19 @@ class Player {
         console.log("last position of repent" + position_of_repent);
         if (position_of_shirk > -1 && position_of_shirk > position_of_repent) {
             console.log(this.special_case[0]);
-            document.getElementById("result").innerHTML = this.special_case[0];
+            //document.getElementById("result").innerHTML = this.special_case[0];
+            return this.special_case[0];
         }
         else {
             if (total_deeds >= 0) {
                 console.log("Final destination: Paradise")
-                document.getElementById("result").innerHTML = "Final destination: Paradise";
+                //document.getElementById("result").innerHTML = "Final destination: Paradise";
+                return "Final destination: Paradise";
             }
             else {
                 console.log("Final destination: Hell")
-                document.getElementById("result").innerHTML = "Final destination: Hell";
+                //document.getElementById("result").innerHTML = "Final destination: Hell";
+                return "Final destination: Hell";
             }
         }
     }
@@ -83,7 +95,7 @@ player1.random_death()
 console.log("Player's total lifetime is ", player1.time_line)
 const stop = async () => {
     for (let i = player1.age; player1.time_line > i; i++) {
-        daily_result = player1.daily_action()
+        daily_result = player1.daily_action(randrange(-7, 7))
         await sleep(1);
         document.getElementById("daily_result").innerHTML = `Age: ${player1.age} | committing: ${daily_result}`;
         console.log("Good deeds are: " + player1.good_life_history);
@@ -101,47 +113,95 @@ const stop = async () => {
     }
 }
 stop()
+const network3 = new brain.NeuralNetwork();
+network3.train([
+    { input: { g: 3, b: 0 }, output: { peradise: 1 } },
+    { input: { g: 6, b: -4 }, output: { peradise: 1 } },
+    { input: { g: 0, b: -1 }, output: { hell: 1 } },
+    { input: { g: 7, b: -7 }, output: { peradise: 1 } },
+    { input: { g: 6, b: -7 }, output: { hell: 1 } },
+]);
+
+player2 = new Player("Ai", 14, "Male")
+player2.random_death()
+console.log("Ai's total lifetime is ", player2.time_line)
+const stop3 = async () => {
+    for (let i = player2.age; player2.time_line > i; i++) {
+        const rand = randrange(0, 7)
+        const rand2 = randrange(-7, 0)
+        let result3 = network3.run({ g: rand, b: rand2 });
+        daily_result = player2.daily_action(result3["peradise"])
+        await sleep(1);
+        document.getElementById("daily_result2").innerHTML = `Age: ${player2.age} | committing: ${daily_result}`;
+        console.log("Good deeds are: " + player2.good_life_history);
+        document.getElementById("good_deeds2").innerHTML = player2.good_life_history;
+        console.log("Bad deeds are:" + player2.bad_life_history);
+        document.getElementById("bad_deeds2").innerHTML = player2.bad_life_history;
+        document.getElementById("history4").innerHTML = player2.all_life_history;
+        player2.aging()
+        if (player2.age == player2.time_line) {
+            document.getElementById("dr2").innerHTML = "---";
+            document.getElementById("daily_result2").innerHTML = "---";
+            player2.is_alive = false
+            break
+        }
+    }
+
+}
+stop3()
 // Create a Neural Network
-const network = new brain.NeuralNetwork();
-const network2 = new brain.NeuralNetwork();
+// const network = new brain.NeuralNetwork();
+// const network2 = new brain.NeuralNetwork();
 async function stop2() {
     time = (player1.time_line + 2) - player1.age
     await sleep(time)
-    player1.calculate_deeds()
+    cal = player1.calculate_deeds()
+    document.getElementById("result").innerHTML = cal;
     document.getElementById("death").innerHTML = "He died at the age of " + player1.time_line;
     console.log("good deeds score: " + player1.good_deeds)
     console.log("Evil deeds score: " + player1.bad_deeds)
     // Train the Network
-    network.train([
-        { input: { g: 1, b: 0 }, output: { peradise: 1 } },
-        { input: { g: 0.6, b: 0.4 }, output: { peradise: 1 } },
-        { input: { g: 0, b: 1 }, output: { hell: 1 } },
-        { input: { g: 0.3, b: 0.8 }, output: { hell: 1 } },
+    // network.train([
+    //     { input: { g: 1, b: 0 }, output: { peradise: 1 } },
+    //     { input: { g: 0.6, b: 0.4 }, output: { peradise: 1 } },
+    //     { input: { g: 0, b: 1 }, output: { hell: 1 } },
+    //     { input: { g: 0.3, b: 0.8 }, output: { hell: 1 } },
 
-    ]);
-    // Train the Network
-    network2.train([
-        { input: { g: 1, b: 0 }, output: { peradise: 1 } },
-        { input: { g: 0.7, b: 0.4 }, output: { peradise: 1 } },
-        { input: { g: 0, b: 1 }, output: { hell: 1 } },
-        { input: { g: 0.1, b: 0.6 }, output: { hell: 1 } },
+    // ]);
+    // // Train the Network
+    // network2.train([
+    //     { input: { g: 1, b: 0 }, output: { peradise: 1 } },
+    //     { input: { g: 0.7, b: 0.4 }, output: { peradise: 1 } },
+    //     { input: { g: 0, b: 1 }, output: { hell: 1 } },
+    //     { input: { g: 0.1, b: 0.6 }, output: { hell: 1 } },
 
-    ]);
+    // ]);
     /*
     max = player1.good_deeds > -player1.bad_deeds ? player1.good_deeds : -player1.bad_deeds; // 10>2 -> 10 or 2>10 -> 10
     min = player1.good_deeds < -player1.bad_deeds ? player1.good_deeds : -player1.bad_deeds; // 10<2 -> 2 or 2<10 -> 2
     normalized_good_deeds = ((player1.good_deeds - 0.1) - player1.bad_deeds) / (player1.good_deeds - player1.bad_deeds)
     normalized_bad_deeds = ((-player1.bad_deeds + 0.1) + player1.bad_deeds) / (player1.good_deeds - player1.bad_deeds) */
-    let result = network.run({ g: player1.good_deeds, b: -player1.bad_deeds });
-    let result2 = network2.run({ g: player1.good_deeds, b: -player1.bad_deeds });
-    console.log(`normalized_good_deeds = ${player1.good_deeds}`);
-    console.log(`normalized_bad_deeds = ${-player1.bad_deeds}`);
-    console.log(`ai thinks: peradise = ${result["peradise"]} | hell = ${result["hell"]}`);
-    console.log(`ai 2 thinks: peradise = ${result2["peradise"]} | hell = ${result2["hell"]}`);
-    document.getElementById("ai1").innerHTML = "ai thinks: peradise = " + result["peradise"] + " | hell = " + result["hell"];
-    document.getElementById("ai2").innerHTML = "ai thinks: peradise = " + result2["peradise"] + " | hell = " + result2["hell"];
+    // let result = network.run({ g: player1.good_deeds, b: -player1.bad_deeds });
+    // let result2 = network2.run({ g: player1.good_deeds, b: -player1.bad_deeds });
+    // console.log(`normalized_good_deeds = ${player1.good_deeds}`);
+    // console.log(`normalized_bad_deeds = ${-player1.bad_deeds}`);
+    // console.log(`ai thinks: peradise = ${result["peradise"]} | hell = ${result["hell"]}`);
+    // console.log(`ai 2 thinks: peradise = ${result2["peradise"]} | hell = ${result2["hell"]}`);
+    // document.getElementById("ai1").innerHTML = "ai thinks: peradise = " + result["peradise"] + " | hell = " + result["hell"];
+    // document.getElementById("ai2").innerHTML = "ai thinks: peradise = " + result2["peradise"] + " | hell = " + result2["hell"];
 }
 stop2()
 console.log("Player is alive: " + player1.is_alive)
 console.log("History of doing deeds" + player1.all_life_history)
 console.log("Thank you for playing")
+
+async function stop4() {
+    time = (player2.time_line + 2) - player2.age
+    await sleep(time)
+    cal = player2.calculate_deeds()
+    document.getElementById("result2").innerHTML = cal;
+    document.getElementById("death2").innerHTML = "He died at the age of " + player2.time_line;
+    console.log("good deeds score: " + player2.good_deeds)
+    console.log("Evil deeds score: " + player2.bad_deeds)
+}
+stop4()
