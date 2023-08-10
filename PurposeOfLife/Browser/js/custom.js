@@ -156,6 +156,11 @@ async function stop2() {
     cal = player1.calculate_deeds()
     document.getElementById("result").innerHTML = cal;
     document.getElementById("death").innerHTML = "He died at the age of " + player1.time_line;
+    const heart = document.getElementById("heart");
+    heart.style.translate = '100px';
+    heart.style.animationIterationCount = '1';
+    await sleep(1);
+    heart.style.setProperty('--heartAfterBackColor', 'gray');
     console.log("good deeds score: " + player1.good_deeds)
     console.log("Evil deeds score: " + player1.bad_deeds)
 }
@@ -170,6 +175,11 @@ async function stop4() {
     cal = player2.calculate_deeds()
     document.getElementById("result2").innerHTML = cal;
     document.getElementById("death2").innerHTML = "He died at the age of " + player2.time_line;
+    const heart2 = document.getElementById("heart2");
+    heart2.style.translate = '100px';
+    heart2.style.animationIterationCount = '1';
+    await sleep(1);
+    heart2.style.setProperty('--heart2AfterBackColor', 'gray');
     console.log("good deeds score: " + player2.good_deeds)
     console.log("Evil deeds score: " + player2.bad_deeds)
 }
